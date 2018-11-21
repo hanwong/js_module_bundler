@@ -1,19 +1,16 @@
-<?php 
-error_reporting( E_ALL );  ini_set('display_errors', 1);
-
-function read($path){
-	$r = '';
+<?php error_reporting( E_ALL );  ini_set('display_errors', 1);
+function read($path){ 
+  $r = '';
   $f = fopen($path, 'r');
-	while($v = fread($f, 4096)) $r .= $v;
-	fclose($f);
-	return $r;
+  while($v = fread($f, 4096)) $r .= $v;
+  fclose($f);
+  return $r;
 }
 
 function import($v){
   $target = trim($v[1]);
   $file = trim($v[2]);
   if(array_search($file, $GLOBALS['dep']) == false) array_push($GLOBALS['dep'], $file);
-  
   if($target[0] == '{'){
     foreach(explode(',', substr($target, 1, strlen($target) - 2)) as $v){
       if(strpos($v, 'as') == false){
@@ -30,7 +27,6 @@ function import($v){
     $GLOBALS['arg'] .= ','.$target;
     $GLOBALS['call'] .= ',_MOD_["'.$file.'"]._DEF_';
   }
-  
   return '';
 }
 function exports($v){
@@ -46,7 +42,6 @@ function exports($v){
   }
   return substr($r, 1).';';
 }
-
 $GLOBALS['files'] = array();
 $GLOBALS['deps'] = array();
 $stack = array($root = realpath(''));
@@ -77,7 +72,6 @@ return _EX_;})('.substr($GLOBALS['call'], 1).');';
     }
   }
 }
-
 $order = array();
 $l = 0;
 while(count($GLOBALS['deps']) > 0 && $l++ < 100){
