@@ -55,7 +55,7 @@ $l = 0;
 while(count($stack) > 0 && $l++ < 100){
   $c = array_pop($stack);
   foreach(scandir($c) as $v){
-    if($v != '.' && $v != '..' && $v != 'importer.php' && substr($v, 0, 3) != 'TMP'){
+     if(strpos($v, '.js') != false){
       $v = $c.'\\'.$v;
       if(is_dir($v)) array_push($stack, $v);
       else{
